@@ -19,6 +19,9 @@ module.exports = function(taskCallback) {
         var bundle = browserify(opt)
         if (opt.watch !== false) {
             bundle = watchify(bundle, opt) // modifies bundle to emit update events
+                .plugin(tsify, {
+                    project: opt.project
+                })
             cache[path] = bundle
             bundle.on('update', function() {
                 bundle.updateStatus = 'updated'

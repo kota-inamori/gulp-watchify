@@ -21,7 +21,11 @@ module.exports = function(taskCallback) {
                     .plugin(tsify, {
                         module: "commonjs",
                         target: "es5",
-                        jsx: "react"
+                        jsx: "react",
+                        exclude: [
+                            "node_modules",
+                            "vendor"
+                        ]
                     })
         if (opt.watch !== false) {
             bundle = watchify(bundle, opt) // modifies bundle to emit update events

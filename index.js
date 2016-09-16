@@ -3,6 +3,7 @@ var merge = require('deepmerge')
 var through = require('through2')
 var browserify = require('browserify')
 var watchify = require('watchify')
+var tsify = require('tsify')
 
 var cache = {}
 

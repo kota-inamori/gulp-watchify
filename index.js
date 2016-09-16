@@ -20,9 +20,6 @@ module.exports = function(taskCallback) {
         var bundle = browserify(opt)
         if (opt.watch !== false) {
             bundle = watchify(bundle, opt) // modifies bundle to emit update events
-                .plugin(tsify, {
-                    project: opt.project
-                })
             cache[path] = bundle
             bundle.on('update', function() {
                 bundle.updateStatus = 'updated'
@@ -55,7 +52,11 @@ module.exports = function(taskCallback) {
                 )
                 file = file.clone()
                 delete bundle.updateStatus
-                file.contents = bundle.bundle()
+                file.contents = bundle
+                    .plugin(tsify, {
+                        project: opt.project
+                    })
+                    .bundle()
                 // Wait until done or else streamify(uglify()) fails due to buffering
                 file.contents.on('error', callback)
                 file.contents.on('end', callback)
